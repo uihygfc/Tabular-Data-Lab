@@ -1,0 +1,41 @@
+let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+let populations = [];
+let currentSubset = "Winter";  // Default subset
+
+function setup() {
+  createCanvas(600, 400);
+  for (let i = 0; i < months.length; i++) {
+    populations.push(random(500000, 10000000));
+  }
+
+  let dropdown = createSelect();
+  dropdown.position(20, 20);
+  dropdown.option("Winter");
+  dropdown.option("Spring");
+  dropdown.option("Summer");
+  dropdown.option("Fall");
+  dropdown.changed(() => {
+    currentSubset = dropdown.value();
+  });
+}
+
+function draw() {
+  background(220);
+  let startMonth, endMonth;
+
+  if (currentSubset === "Winter") {
+    startMonth = 0; endMonth = 2;  // Jan to Mar
+  } else if (currentSubset === "Spring") {
+    startMonth = 3; endMonth = 5;  // Apr to Jun
+  } else if (currentSubset === "Summer") {
+    startMonth = 6; endMonth = 8;  // Jul to Sep
+  } else if (currentSubset === "Fall") {
+    startMonth = 9; endMonth = 11; // Oct to Dec
+  }
+
+  for (let i = startMonth; i <= endMonth; i++) {
+    let barHeight = map(populations[i], 500000, 10000000, 50, 300);
+    fill(255, 100, 100);
+    rect((i - startMonth) * 100 + 100, height - barHeight, 80, barHeight);
+  }
+}
